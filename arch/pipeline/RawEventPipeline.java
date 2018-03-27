@@ -45,12 +45,12 @@ import com.google.gson.JsonParser;
  */
 public class RawEventPipeline {
 	
-	/**	The topic to subscribe to for game events */
-	private static String topic = "projects/gameanalytics-199018/topics/raw-events";
+	/** The topic to subscribe to for game events */
+	private static String topic = "projects/you_project_id/topics/raw-events";
 	
 	/** Provides an interface for setting theGCS temp location */
 	interface Options extends PipelineOptions, Serializable {
-		String getTempLocation();
+       	    String getTempLocation();
 	    void setTempLocation(String value);
 	    
 	    boolean isStreaming();
