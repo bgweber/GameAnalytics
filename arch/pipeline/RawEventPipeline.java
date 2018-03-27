@@ -45,8 +45,8 @@ import com.google.gson.JsonParser;
  */
 public class RawEventPipeline {
 	
-	/**	The topic to subscribe to for game events */
-	private static String topic = "projects/gameanalytics-199018/topics/raw-events";
+	/** The topic to subscribe to for game events */
+	private static String topic = "projects/your_project_id/topics/raw-events";
 	
 	/** Provides an interface for setting theGCS temp location */
 	interface Options extends PipelineOptions, Serializable {
@@ -73,7 +73,7 @@ public class RawEventPipeline {
 	    // table output information 
 	    TableReference table = new TableReference();
 	    table.setDatasetId("tracking");
-	    table.setProjectId("gameanalytics-199018");
+	    table.setProjectId("your_project_id");
 	    table.setTableId("raw_events");	   
 	    
 	    // output format for server time attribute 
@@ -89,7 +89,7 @@ public class RawEventPipeline {
 	    PCollection<PubsubMessage> events = pipeline
 	    	.apply(PubsubIO.readMessages().fromTopic(topic));
 	    
-      // parse the PubSub events and create rows to insert into BigQuery 
+            // parse the PubSub events and create rows to insert into BigQuery 
 	    events.apply("To Table Rows", new PTransform<PCollection<PubsubMessage>, PCollection<TableRow>>() {
 					
 			    public PCollection<TableRow> expand(PCollection<PubsubMessage> input) {
@@ -144,7 +144,7 @@ public class RawEventPipeline {
 	                
 	        // Save the events in ARVO format 
 	    	.apply("To AVRO", AvroIO.write(String.class)
-		    	.to("gs://ben-df-test/avro/raw-events.avro")
+		    	.to("gs://your_gs_bucket/avro/raw-events.avro")
 		    	.withWindowedWrites()
 		    	.withNumShards(2)
 	            .withSuffix(".avro"));	    
